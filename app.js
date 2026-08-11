@@ -9,38 +9,58 @@
 // ════════════════════════════════════
 // 1. LANGUAGE TOGGLE (EN ↔ AR)
 // ════════════════════════════════════
-const langBtn   = document.getElementById('lang-btn');
-let isArabic    = false;
+const langBtn = document.getElementById('lang-btn');
+let isArabic  = false;
+
+function getDisplayType(el) {
+  // Determine appropriate display value based on tag
+  const tag = el.tagName.toLowerCase();
+  if (['p', 'div', 'h1', 'h2', 'h3', 'h4', 'ul', 'li', 'section', 'article'].includes(tag)) return 'block';
+  if (tag === 'span') return 'inline';
+  return 'block';
+}
 
 function setLanguage(arabic) {
   isArabic = arabic;
   const body = document.body;
 
+  // Hide/show English text
   document.querySelectorAll('.en-text').forEach(el => {
-    el.style.display = arabic ? 'none' : '';
-  });
-  document.querySelectorAll('.ar-text').forEach(el => {
-    el.style.display = arabic ? '' : 'none';
+    el.style.display = arabic ? 'none' : getDisplayType(el);
   });
 
-  // Hero role special rows
+  // Hide/show Arabic text
+  document.querySelectorAll('.ar-text').forEach(el => {
+    el.style.display = arabic ? getDisplayType(el) : 'none';
+  });
+
+  // Hero role Arabic row (needs flex)
   const heroRoleAr = document.getElementById('hero-role-ar');
   if (heroRoleAr) heroRoleAr.style.display = arabic ? 'flex' : 'none';
+
+  // English hero role row
+  const heroRoleEn = document.querySelector('.hero-role:not(#hero-role-ar)');
+  if (heroRoleEn) heroRoleEn.style.display = arabic ? 'none' : 'flex';
 
   if (arabic) {
     body.classList.add('rtl');
     body.setAttribute('dir', 'rtl');
     body.setAttribute('lang', 'ar');
+    document.documentElement.setAttribute('lang', 'ar');
+    document.documentElement.setAttribute('dir', 'rtl');
     langBtn.querySelector('.lang-current').textContent = 'English';
   } else {
     body.classList.remove('rtl');
     body.setAttribute('dir', 'ltr');
     body.setAttribute('lang', 'en');
+    document.documentElement.setAttribute('lang', 'en');
+    document.documentElement.setAttribute('dir', 'ltr');
     langBtn.querySelector('.lang-current').textContent = 'عربي';
   }
 }
 
 langBtn.addEventListener('click', () => setLanguage(!isArabic));
+
 
 // ════════════════════════════════════
 // 2. MOBILE MENU
@@ -64,79 +84,9 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 // ════════════════════════════════════
-// 4. QR CODE GENERATOR
+// 4. QR CODE (disabled — no QR section in current HTML)
 // ════════════════════════════════════
-const QR_CONTAINER = document.getElementById('qr-code');
-const urlDisplay   = document.getElementById('current-url-display');
-const urlInput     = document.getElementById('qr-url-input');
-const updateQRBtn  = document.getElementById('update-qr-btn');
-const downloadBtn  = document.getElementById('download-qr-btn');
-
-let currentQRUrl   = window.location.href;
-let qrInstance     = null;
-
-function generateQR(url) {
-  QR_CONTAINER.innerHTML = '';
-  qrInstance = new QRCode(QR_CONTAINER, {
-    text: url,
-    width: 200,
-    height: 200,
-    colorDark: '#1a1040',
-    colorLight: '#ffffff',
-    correctLevel: QRCode.CorrectLevel.H
-  });
-  urlDisplay.textContent = url.length > 45 ? url.substring(0, 45) + '...' : url;
-  currentQRUrl = url;
-}
-
-// Initialize QR on load
-window.addEventListener('load', () => {
-  generateQR(currentQRUrl);
-  urlInput.value = currentQRUrl;
-});
-
-// Update QR on button click
-updateQRBtn.addEventListener('click', () => {
-  const newUrl = urlInput.value.trim();
-  if (!newUrl) return;
-  if (!newUrl.startsWith('http://') && !newUrl.startsWith('https://')) {
-    urlInput.value = 'https://' + newUrl;
-    return generateQR('https://' + newUrl);
-  }
-  generateQR(newUrl);
-
-  // Flash feedback
-  updateQRBtn.textContent = '✓ Updated!';
-  updateQRBtn.style.background = 'rgba(34,211,165,0.15)';
-  setTimeout(() => {
-    updateQRBtn.innerHTML = isArabic
-      ? '<span class="ar-text">تحديث QR</span>'
-      : '<span class="en-text">Update QR</span>';
-    updateQRBtn.style.background = '';
-  }, 1800);
-});
-
-urlInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter') updateQRBtn.click();
-});
-
-// Download QR as PNG
-downloadBtn.addEventListener('click', () => {
-  const canvas = QR_CONTAINER.querySelector('canvas');
-  const img    = QR_CONTAINER.querySelector('img');
-
-  if (canvas) {
-    const link = document.createElement('a');
-    link.download = 'nada-portfolio-qr.png';
-    link.href     = canvas.toDataURL('image/png');
-    link.click();
-  } else if (img) {
-    const link = document.createElement('a');
-    link.download = 'nada-portfolio-qr.png';
-    link.href     = img.src;
-    link.click();
-  }
-});
+// QR elements are not present in this version of the portfolio.
 
 // ════════════════════════════════════
 // 5. ANIMATED COUNTERS (HERO STATS)

@@ -200,6 +200,7 @@ ul { list-style: none; }
   min-height: 100vh;
   position: relative;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   overflow: hidden;
   padding-top: 70px;
@@ -1553,4 +1554,143 @@ body.rtl .scroll-indicator { align-items: flex-end; }
   .compact-grid     { grid-template-columns: 1fr; }
   .pcard-right      { padding: 20px; }
   .pcard-results    { flex-wrap: wrap; }
+}
+
+/* ════════════════════════════════════
+   ARABIC / RTL STYLES
+   ════════════════════════════════════ */
+body.rtl {
+  font-family: var(--font-ar);
+  direction: rtl;
+  text-align: right;
+}
+
+/* Navbar RTL */
+body.rtl .nav-inner {
+  flex-direction: row-reverse;
+}
+body.rtl .nav-links {
+  flex-direction: row-reverse;
+}
+body.rtl .nav-controls {
+  flex-direction: row-reverse;
+}
+body.rtl .nav-link::after {
+  left: auto;
+  right: 14px;
+}
+
+/* Hero RTL */
+body.rtl .hero-content {
+  text-align: right;
+}
+body.rtl .hero-badge {
+  flex-direction: row-reverse;
+}
+body.rtl .hero-role {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+body.rtl .hero-cta {
+  flex-direction: row-reverse;
+}
+body.rtl .scroll-indicator {
+  align-items: flex-end;
+}
+body.rtl .hero-stats {
+  left: 40px;
+  right: auto;
+}
+
+/* About RTL */
+body.rtl .about-text {
+  text-align: right;
+}
+body.rtl .skill-tags {
+  justify-content: flex-end;
+}
+
+/* Section headers RTL */
+body.rtl .section-header {
+  text-align: center;
+}
+
+/* Cards RTL */
+body.rtl .pcard-featured {
+  direction: rtl;
+}
+body.rtl .pcard-header {
+  flex-direction: row-reverse;
+}
+body.rtl .pcard-status {
+  margin-left: 0;
+  margin-right: auto;
+}
+body.rtl .pcard-tech,
+body.rtl .pcard-features,
+body.rtl .pcard-results,
+body.rtl .pcard-links,
+body.rtl .ccard-links,
+body.rtl .ccard-tech {
+  flex-direction: row-reverse;
+}
+body.rtl .pcard-role,
+body.rtl .ccard-role {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+/* Compact cards RTL */
+body.rtl .ccard-top {
+  flex-direction: row-reverse;
+}
+body.rtl .ccard-badges {
+  flex-direction: row-reverse;
+}
+body.rtl .ccard-features {
+  padding-right: 16px;
+  padding-left: 0;
+  text-align: right;
+}
+
+/* Contact RTL */
+body.rtl .contact-card {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+body.rtl .contact-info {
+  align-items: flex-end;
+}
+
+/* Footer RTL */
+body.rtl .footer {
+  text-align: center;
+}
+
+/* Mobile menu RTL */
+body.rtl .mobile-menu {
+  text-align: right;
+}
+
+/* Arabic font for text elements in RTL */
+body.rtl .hero-desc,
+body.rtl .pcard-desc,
+body.rtl .ccard-desc,
+body.rtl .pcard-sub,
+body.rtl .ccard-sub,
+body.rtl .section-sub,
+body.rtl .contact-type,
+body.rtl .contact-val,
+body.rtl .btn,
+body.rtl p,
+body.rtl li {
+  font-family: var(--font-ar);
+  line-height: 1.9;
+}
+
+body.rtl .hero-title,
+body.rtl .section-title,
+body.rtl .pcard-title,
+body.rtl .ccard-title {
+  font-family: var(--font-ar);
 }
